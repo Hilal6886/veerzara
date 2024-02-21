@@ -1,0 +1,48 @@
+:root {
+  --primarycolor: hsl(26, 93%, 50%);
+  --Hovercolor: hsl(26, 90%, 42%);
+  ---whitecolor: hsl(0, 0%,100%);
+  --blackcolor: hsl(0, 0%, 18%);
+  --textcolor: hsl(240, 1%, 48%);
+  --whitecolorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greytext: rgb(190, 190, 190);
+  --inputcolor: hsl(330, 12%, 97%);
+  --bodyColor: rgb(240, 240, 246);
+  --cardBg: rgb(225, 225, 235);
+}
+.register {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.register__container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: #dcdcdc;
+  padding: 30px;
+}
+.register__textBox {
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+}
+.register__btn {
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  border: none;
+  color: white;
+  background-color: black;
+}
+.register__google {
+  background-color: #4285f4;
+}
+.register div {
+  margin-top: 7px;
+}
+ 
