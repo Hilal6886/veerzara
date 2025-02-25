@@ -5,21 +5,24 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}",  ],
   theme: {
     extend: {
-      colors: {
-        primary: "#4A3AFF",
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        scaleIn: {
+          '0%': { transform: 'scale(0.9)', opacity: 0 },
+          '100%': { transform: 'scale(1)', opacity: 1 },
+        },
+        fadeSlideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: 0 },
+          '100%': { transform: 'translateY(0)', opacity: 1 },
+        },
       },
-    
-      fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
-        dm: ["DM Sans", "sans-serif"],
-      },
-      boxShadow: {
-        "3xl": "17px 17px 40px 40px",
-        inset: "inset 0px 18px 22px",
-        darkinset: "0px 4px 4px inset",
-      },
-      borderRadius: {
-        primary: "20px",
+      animation: {
+        fadeIn: 'fadeIn 0.5s ease-out',
+        scaleIn: 'scaleIn 0.5s ease-out',
+        fadeSlideUp: 'fadeSlideUp 0.6s ease-out',
       },
     },
   
@@ -227,6 +230,7 @@ module.exports = {
     
     }),
   },
+  plugins: [],
   
 };
 

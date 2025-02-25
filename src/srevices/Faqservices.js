@@ -7,7 +7,6 @@ export const fetchFaqs = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, 'faqs'));
     const faqs = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    console.log('Fetched faqs:', faqs); // Add this line for debugging
     return faqs;
   } catch (error) {
     console.error('Error fetching faqs:', error);

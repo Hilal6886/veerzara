@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-
-
-import { db, storage } from "../firebase";
+import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
   addDoc,
   collection,
@@ -13,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { uploadToCloudinary } from "../srevices/cloudinary";
 
 const initialState = {
   title: "",
@@ -83,30 +81,24 @@ const categoryOption = [
   'Community Connections',
 ];
 
-  
-
-const  Addblog = ({ user }) => {
+const Addblog = ({ user }) => {
   const [form, setForm] = useState(initialState);
   const [file, setFile] = useState(null);
-  const [progress, setProgress] = useState(null);
   const [uploading, setUploading] = useState(false);
   const { id } = useParams();
-
   const navigate = useNavigate();
 
   const { title, tags, category, trending, description } = form;
 
+  // Upload image using Cloudinary when a file is selected
   useEffect(() => {
     const uploadFile = async () => {
       try {
         console.log("Start uploading...");
         setUploading(true);
-        const storageRef = ref(storage, file.name);
-        const snapshot = await uploadBytesResumable(storageRef, file);
-        console.log("Upload successful. Retrieving download URL...");
-        const downloadUrl = await getDownloadURL(snapshot.ref);
-        console.log("Download URL:", downloadUrl);
-        toast.info("Image uploaded to Firebase successfully");
+        const downloadUrl = await uploadToCloudinary(file);
+        console.log("Upload successful. Cloudinary URL:", downloadUrl);
+        toast.info("Image uploaded to Cloudinary successfully");
         setForm((prev) => ({ ...prev, imgUrl: downloadUrl }));
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -115,13 +107,12 @@ const  Addblog = ({ user }) => {
         setUploading(false);
       }
     };
-console.log("FILE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",file)
+    console.log("FILE:", file);
     file && uploadFile();
   }, [file]);
 
   useEffect(() => {
     id && getBlogDetail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const getBlogDetail = async () => {
@@ -130,7 +121,6 @@ console.log("FILE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",file)
     if (snapshot.exists()) {
       setForm({ ...snapshot.data() });
     }
-  
   };
 
   const handleChange = (e) => {
@@ -181,6 +171,7 @@ console.log("FILE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",file)
       return toast.error("All fields are mandatory to fill");
     }
 
+    // Optional: Preview the image after submission (if needed)
     const reader = new FileReader();
     reader.onload = (event) => {
       document.getElementById("image-preview").src = event.target.result;
@@ -189,7 +180,6 @@ console.log("FILE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",file)
 
     navigate("/");
   };
-
 
   return (
     <div className="flex p-5 items-center justify-center min-h-screen bg-blue-500">
@@ -208,7 +198,6 @@ console.log("FILE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",file)
               onChange={handleChange}
             />
           </div>
-        
           <div>
             <p className="mb-2">Is it a trending blog?</p>
             <div className="flex items-center space-x-4">
@@ -255,43 +244,44 @@ console.log("FILE>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",file)
               onChange={handleChange}
             />
           </div>
-            <div className="mb-6">
-          <h3 className="text-gray-400">Upload an image</h3>
-          <input
-            type="file"
-            className="w-full p-3 bg-gray-00 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-            onChange={(e) => {
-              setFile(e.target.files[0]);
-              const reader = new FileReader();
-              reader.onload = (event) => {
-                document.getElementById('image-preview').src = event.target.result;
-              };
-              reader.readAsDataURL(e.target.files[0]);
-            }}
-          />
-          {file && (
-            <img
-              id="image-preview"
-              className="mt-3 rounded-md border border-gray-300"
-              alt="Image Preview"
-              style={{ maxWidth: '100%', maxHeight: '200px' }}
+          <div className="mb-6">
+            <h3 className="text-gray-400">Upload an image</h3>
+            <input
+              type="file"
+              className="w-full p-3 bg-gray-00 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                  document.getElementById('image-preview').src =
+                    event.target.result;
+                };
+                reader.readAsDataURL(e.target.files[0]);
+              }}
             />
-          )}
-          {uploading && <p>Uploading image...</p>}
-        </div>
-            <div className="mb-6">
-          <button
-            className="w-full bg-blue-500 text-white rounded-md py-3 hover:bg-blue-600 transition duration-300"
-            type="submit"
-            disabled={uploading}
-          >
-            {uploading ? "Uploading..." : id ? "Update" : "Submit"}
-          </button>
-        </div>
+            {file && (
+              <img
+                id="image-preview"
+                className="mt-3 rounded-md border border-gray-300"
+                alt="Image Preview"
+                style={{ maxWidth: '100%', maxHeight: '200px' }}
+              />
+            )}
+            {uploading && <p>Uploading image...</p>}
+          </div>
+          <div className="mb-6">
+            <button
+              className="w-full bg-blue-500 text-white rounded-md py-3 hover:bg-blue-600 transition duration-300"
+              type="submit"
+              disabled={uploading}
+            >
+              {uploading ? "Uploading..." : id ? "Update" : "Submit"}
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
-};                                                       
+};
 
 export default Addblog;

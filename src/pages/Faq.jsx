@@ -67,18 +67,18 @@ const FaqSection = () => {
       <div className="grid gap-4">
         {faqs &&
           faqs.map((faq, index) => (
-            <div key={faq.id} className="rounded-md bg-white p-4 shadow-md">
+            <div key={faq.id} className="rounded-md bg-white p-4 shadow-md ">
               <div
                 className="flex cursor-pointer items-center justify-between"
                 onClick={() => handleToggle(index)}
               >
                 <h3 className="text-sm leading-relaxed md:text-lg lg:text-xl xl:text-xl xl:text-xl   text-gray-400 ">{faq.question}</h3>
-                <span className="text-purple-500 ">
-                  {activeIndex === index ? <BsDash size={35}/> : <BsPlus size={35} />}
+                <span className="p-1 rounded-xl text-white text-sm lg:text-xl md:text-lg bg-green-400">
+                  {activeIndex === index ? <BsDash size={25}/> : <BsPlus size={25} />}
                 </span>
               </div>
               {activeIndex === index && (
-                <div className="text-gray-400 text-sm leading-relaxed md:text-lg lg:text-xl xl:text-xl xl:text-xl  mt-4">{faq.answer}</div>
+                <span className="text-gray-400 text-sm leading-relaxed md:text-lg lg:text-xl xl:text-xl xl:text-xl  mt-4">{faq.answer}</span>
               )}
               {isAdmin && (
                 <div className="mt-4 flex">

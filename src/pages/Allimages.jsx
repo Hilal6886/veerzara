@@ -26,13 +26,13 @@ const Allimages = () => {
   return (
     <section className="lg:mt-[5rem] justify-center p-8">
         <div className="text-center lg:mb-[4rem]">
-        <h2 className="text-2xl md:text-3xl hed lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-6">
-         <span className="text-blue-500 hed">Cumpus</span> Gallary
-        </h2>
-        <p className="text-lg md:text-xl lg:text-2xl text-Heart-800 text-center mb-4">
-        Capturing Moments Step into Our Campus Gallery.
-        </p>
-       
+        <h1 className="text-4xl text-[#3D2117] font-extrabold leading-tight mb-4 text-center">
+        Gallary
+      </h1>
+      <p className="text-lg text-gray-400 mb-8 text-center">
+      Capturing Moments Step into Our customer Gallery.
+      </p>
+     
       </div>
           <div className=" mt-[6rem] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {images.map((image) => (

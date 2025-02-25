@@ -18,18 +18,30 @@ const BlogSection = ({
   const currentUser = userData ? JSON.parse(userData) : null;
   const isAdmin = currentUser?.isAdmin || false;
 
+  // Optionally apply Cloudinary transformation (e.g., resize & crop)
+  const transformedImgUrl = imgUrl
+    ? imgUrl.replace("/upload/", "/upload/w_600,h_400,c_fill/")
+    : imgUrl;
+
   return (
     <div className="blog-section-container bg-gradient-to-r from-white via-white to-gray-100 rounded-lg overflow-hidden shadow-xl hover:shadow-lg transition duration-300">
       <div className="blog-section-image">
-        <img className="w-full h-56 object-cover" src={imgUrl} alt={title} />
+        <img
+          className="w-full h-56 object-cover"
+          src={transformedImgUrl || imgUrl}
+          alt={title}
+        />
       </div>
       <div className="p-6">
         <h6 className="text-indigo-700 uppercase tracking-wide">{category}</h6>
-        <h2 className="text-lg md:text-lg lg:text-xl xl:text-xl xl:text-xl font-sami-bold mb-1 text-Heart-100 ">{title}</h2>
-       
-        <p className="text-gray-400 text-sm leading-relaxed md:text-lg lg:text-lg xl:text-lg xl:text-lg mt-4">{excerpt(description, 120)}</p>
+        <h2 className="text-lg md:text-lg lg:text-xl xl:text-xl font-sami-bold mb-1 text-Heart-100">
+          {title}
+        </h2>
+        <p className="text-gray-400 text-sm leading-relaxed md:text-lg lg:text-lg xl:text-lg mt-4">
+          {excerpt(description, 120)}
+        </p>
         <Link to={`/detail/${id}`}>
-          <button className="mt-4 bg-[#03AC13]  uppercase text-white py-2 px-4 rounded-md hover:bg-green-600">
+          <button className="mt-4 bg-[#03AC13] w-full uppercase text-white py-2 px-4 rounded-md hover:bg-green-600">
             Read More
           </button>
         </Link>

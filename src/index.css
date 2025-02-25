@@ -1,83 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-	html {
-		font-family: 'DM Sans', sans-serif !important;
-		font-feature-settings: 'kern' !important;
-		-webkit-font-smoothing: antialiased;
-		letter-spacing: -0.5px;
-		background-color:F5F5F5;
-	}
-	  /* container */
-	  .travigo-container {
-		@apply w-[100vw] xl:w-[110vw] m-auto;
-	  }
-	
-	  /* buttons */
-	  .button-emrald {
-		@apply bg-gradient-to-b from-emerald-500 to-green-500 shadow-lg shadow-emerald-400 rounded-full text-lg sm:text-sm px-9 py-1.5 transition-all duration-200 active:scale-90 text-white sm:w-48;
-	  }  
-	  .button-light {
-		@apply bg-gradient-to-b from-white to-slate-100 shadow-lg shadow-slate-100 rounded-full text-lg sm:text-sm px-9 py-1.5 transition-all duration-200 active:scale-90 text-black sm:w-48;
-	  }  
-	
-	  /* drop-shadow-emrald */
-	  .drop-shadow-emrald {
-		filter: drop-shadow(0.1rem 0.1rem 1rem rgba(74 222 128 / 80%));
-	  }
-	
-	  /* poupState */
-	  .showpopup {
-		opacity: 1;
-		visibility: visible;
-		transform: skewY(0deg) translateY(10px);
-	  }
-	  .noshowpopup {
-		opacity: 0;
-		visibility: hidden;
-		transform: skewY(3deg) translateY(-30px); 
-	  }
-	
-		
-	  .nav-default {
-		@apply flex items-center justify-center fixed top-8 lg:top-5 left-0 right-0 transition-all duration-300;
-	  }
-	  .nav-sticky{
-		@apply bg-white/80 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-20 flex items-center h-[9vh] fixed top-0 left-0 right-0 opacity-100 z-[100] shadow-sm shadow-slate-100;
-	  }
-	  
-}
-
-
-
-
-input.defaultCheckbox::before {
-	
-	color: white;
-	opacity: 0; 
-	height: 16px; 
-	width: 16px;
-	position: absolute; 
-	left: 50%;
-	transform: translate(-50%, 0px);
-} 
-
-input:checked.defaultCheckbox::before { 
-	opacity: 1;
-}
+/* Global Font Styles */
 body {
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-	  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-	  sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	
-  }
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  background-color: white;
+}
 
+/* Headings */
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+}
 
-  
+/* Branding / Logo Font */
+.brand-text {
+  font-family: 'Pacifico', cursive;
+  color: #059669; /* Tailwind green-600 */
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  background-color: #059669; /* Tailwind green-600 */
+  height: 3px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.3s ease-in-out;
+}

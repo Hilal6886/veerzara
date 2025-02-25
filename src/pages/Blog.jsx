@@ -45,7 +45,7 @@ const Blog = ({ user, active }) => {
   }
 
   return (
-    <section className=" mt-[3rem] p-4 py-12">
+    <section className=" mt-[3rm] p-4 py-12">
   
 
       <div className="text-center p-4">

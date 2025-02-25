@@ -1,11 +1,5 @@
-
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-
-
-
-
 import React, { useState, useEffect } from "react";
-import { db, storage } from "../firebase";
+import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   addDoc,
@@ -16,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { uploadToCloudinary } from "../srevices/cloudinary";
 
 const initialState = {
   title: "",
@@ -28,23 +23,19 @@ const CreateContainer = ({ user, setActive }) => {
   const [uploading, setUploading] = useState(false);
 
   const { id } = useParams();
-
   const navigate = useNavigate();
-
   const { title, location } = form;
 
+  // Upload image using Cloudinary when a file is selected
   useEffect(() => {
     if (file) {
       const uploadFile = async () => {
         try {
           console.log("Start uploading...");
           setUploading(true);
-          const storageRef = ref(storage, file.name);
-          const snapshot = await uploadBytesResumable(storageRef, file);
-          console.log("Upload successful. Retrieving download URL...");
-          const downloadUrl = await getDownloadURL(snapshot.ref);
-          console.log("Download URL:", downloadUrl);
-          toast.info("Image uploaded to Firebase successfully");
+          const downloadUrl = await uploadToCloudinary(file);
+          console.log("Upload successful. Cloudinary URL:", downloadUrl);
+          toast.info("Image uploaded to Cloudinary successfully");
           setForm((prev) => ({ ...prev, imgUrl: downloadUrl }));
         } catch (error) {
           console.error("Error uploading image:", error);
@@ -53,14 +44,15 @@ const CreateContainer = ({ user, setActive }) => {
           setUploading(false);
         }
       };
-      
 
       uploadFile();
     }
   }, [file]);
 
   useEffect(() => {
-    id && getBlogDetail();
+    if (id) {
+      getBlogDetail();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -120,7 +112,7 @@ const CreateContainer = ({ user, setActive }) => {
         <div className="mb-6">
           <input
             type="text"
-            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3  outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-blue-500"
             placeholder="Title"
             name="title"
             value={title}
@@ -130,7 +122,7 @@ const CreateContainer = ({ user, setActive }) => {
         <div>
           <input
             type="text"
-            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3  outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-blue-500"
             placeholder="Enter location"
             name="location"
             value={location}
@@ -146,7 +138,8 @@ const CreateContainer = ({ user, setActive }) => {
               setFile(e.target.files[0]);
               const reader = new FileReader();
               reader.onload = (event) => {
-                document.getElementById('image-preview').src = event.target.result;
+                document.getElementById("image-preview").src =
+                  event.target.result;
               };
               reader.readAsDataURL(e.target.files[0]);
             }}
@@ -156,7 +149,7 @@ const CreateContainer = ({ user, setActive }) => {
               id="image-preview"
               className="mt-3 rounded-md border border-gray-300"
               alt="Image Preview"
-              style={{ maxWidth: '100%', maxHeight: '200px' }}
+              style={{ maxWidth: "100%", maxHeight: "200px" }}
             />
           )}
           {uploading && <p>Uploading image...</p>}
@@ -176,4 +169,3 @@ const CreateContainer = ({ user, setActive }) => {
 };
 
 export default CreateContainer;
-

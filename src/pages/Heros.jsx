@@ -1,84 +1,121 @@
+import React, { useState } from "react";
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+const Modal = ({ isOpen, message, onClose }) => {
+  if (!isOpen) return null;
 
-import hero from "../assets/hero.mp4";
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-[90%] sm:w-[400px] text-center">
+        <p className="text-lg font-semibold mb-4">{message}</p>
+        <button
+          onClick={onClose}
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default function Hero() {
-  const navigate = useNavigate();
-  const [destination, setDestination] = useState('');
-  const [priceRange, setPriceRange] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [modal, setModal] = useState({ isOpen: false, message: "" });
 
-  const handleExplore = () => {
-    const queryParams = new URLSearchParams({
-      destination: destination,
-      priceRange: priceRange,
-    });
+  const handleGetQuote = async (e) => {
+    e.preventDefault();
 
-    navigate(`/filtered-tours?${queryParams}`);
+    const formData = { name, email, phone };
+    const getformEndpoint = "https://formspree.io/f/xwppglda";
+
+    try {
+      const response = await fetch(getformEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setModal({
+          isOpen: true,
+          message:
+            "Thank you! Your inquiry has been received. Our team will get in touch with you soon!",
+        });
+        setName("");
+        setEmail("");
+        setPhone("");
+      } else {
+        setModal({ isOpen: true, message: "Submission failed. Please try again." });
+      }
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+      setModal({ isOpen: true, message: "An error occurred. Please try again later." });
+    }
   };
+
   return (
-    <section id="hero" className="relative w-full h-full  overflow-hidden">
-      <div className="h-screen  ">
+    <section id="hero" className="relative w-full h-screen overflow-hidden">
+      <Modal isOpen={modal.isOpen} message={modal.message} onClose={() => setModal({ isOpen: false, message: "" })} />
+      <div className="h-screen relative">
         <video
           autoPlay
           loop
           muted
-          className="w-full h-full lg:h-[85%] object-cover object-center opacity-100"
-          style={{ objectFit: "cover", objectPosition: "50% 50%" }}
+          playsInline
+          className="absolute top-0 left-0 w-full h-[90%] lg:h-[70%] object-cover"
         >
-          <source
-            src={hero}// Replace with your video URL
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
+          <source src="https://videos.pexels.com/video-files/13750318/13750318-uhd_2560_1440_60fps.mp4" type="video/mp4" />
         </video>
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
       </div>
-      <div className="absolute p-0 m-0 top-1/2 lg:top-1/3 md:top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white z-10">
-        <h1 className="text-5xl uppercase  md:text-6xl md:mt-0 text-center font-bold mb-4">
-          Explore the Beauty Of Kashmir
-        </h1>
-        <p className="text-lg uppercase md:text-xl mb-6 ">
-          Embark on a journey to discover amazing destinations.
-        </p>
-        <div className="bg-white bg-opacity-20 p-6 w-[20rem] rounded-md shadow-md backdrop-blur-md lg:w-[50rem]  mx-auto">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white z-10">
+        <form
+          onSubmit={handleGetQuote}
+          className="bg-white bg-opacity-20 p-6 w-[20rem] rounded-md shadow-md backdrop-blur-md lg:w-[50rem] mx-auto text-center"
+        >
+          <h1 className="text-2xl sm:text-3xl font-bold uppercase">
+            Discover Unforgettable Adventures
+          </h1>
+          <p className="text-sm sm:text-base mt-2">
+            Plan your dream journey with Veer Zara Tour and Travel.
+          </p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-            <div className="mb-4 md:mb-0 w-full md:w-1/3">
-              
-              <input
-                type="text"
-                id="destination"
-                placeholder="Enter your destination"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                className="w-full p-3 border border-white rounded-md bg-transparent text-Heart-800 placeholder-gray-400 focus:outline-none"
-              />
-            </div>
-            <div className="mb-4 md:mb-0 w-full md:w-1/3">
-              
-              <input
-                type="number"
-                id="people"
-                placeholder="Enter No Of People"
-                className="w-full p-3 border border-white rounded-md bg-transparent text-Heart-800 placeholder-gray-400 focus:outline-none"
-              />
-            </div>
-            <div className="mb-4 md:mb-0 w-full md:w-1/3">
-              
-              <input
-                type="number"
-                id="destination"
-                placeholder="Enter Price Range"
-                value={priceRange}
-          onChange={(e) => setPriceRange(e.target.value)}
-                className="w-full p-3 border border-white rounded-md bg-transparent text-Heart-800 placeholder-gray-400 focus:outline-none"
-              />
-            </div>
-            <button onClick={handleExplore} className="bg-[#03AC13] hover:bg-green-600 text-white px-6 py-3 rounded-md">
-              Explore Now
+          <input
+              type="text"
+              id="name"
+              placeholder="Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full p-2 border border-indigo-500 rounded-md bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-2"
+              required
+            />
+            <input
+              type="email"
+              id="email"
+              placeholder="Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-2 border border-indigo-500 rounded-md bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-2"
+              required
+            />
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Phone Number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full p-2 border border-indigo-500 rounded-md bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-2"
+            />
+            <button
+              type="submit"
+              className="bg-indigo-800 hover:bg-indigo-900 text-white py-2 px-4 rounded-md transition-all duration-300 w-full mt-3"
+            >
+              Get a Quote
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

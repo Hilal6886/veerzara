@@ -14,9 +14,12 @@ import VerifyEmail from "pages/VerifyEmail";
 import { AuthProvider } from 'pages/AuthContext'
 import Reset from "pages/Reset";
 import Explore from "components/Explore";
+import useScrollToTop from "hooks/useScrollToTop";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
-  const [active, setActive] = useState("CBlog");
+  useScrollToTop ();
+
   const [user, setUser] = useState(null);
   const location = useLocation();
 
@@ -29,7 +32,7 @@ const App = () => {
     onAuthStateChanged(auth, (user) => {
       setUser(user || {});
       setCurrentUser(user || {})
-      console.log("USERRRRRRRRRRRRRRRRRRRRRRRRR", user)
+    
     })
   }, [])
   return (
@@ -46,8 +49,10 @@ const App = () => {
      
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/reset" element={<Reset />} />
-      
+     
+   
     </Routes>
+    <ToastContainer />
     </AuthProvider>
     
   );

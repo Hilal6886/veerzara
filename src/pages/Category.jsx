@@ -1,92 +1,81 @@
-import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-import { FaUsersCog, FaSuitcaseRolling } from "react-icons/fa";
-import { AiOutlineSafety } from "react-icons/ai";
-import img from "../images/memory.png";
-
-const AboutUsPage = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 600,
-      easing: 'ease-in-out',
-    });
-  }, []);
-
+function About() {
   return (
-    <section className="py-12 px-3 lg:px-20 ">
-      <div className="text-center p-4">
-        
-        <h1 className="text-4xl text-[#3D2117] font-extrabold leading-tight mb-4 text-center">
-        About Us
-      </h1>
-      <p className="text-lg text-gray-400 mb-8 text-center">
-        We are passionate about travel and committed to providing you with the best experiences. 
-      </p>
-
-       
-      </div>
-
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
-        <div
-          data-aos="zoom-in"
-          className="relative overflow-hidden rounded-lg  lg:mr-8"
-        >
-          <img
-            className="w-full h-[30rem] object-cover object-center"
-            src={img}
-            alt=""
-          />
-        </div>
-
-        <div className="max-w-lg mx-auto lg:order-2">
-          <p className="text-base text-center font-semibold text-[#0056 mb-2">SJ Tour and Travels</p>
-          <h1 className="text-3xl text-center  text-[#3D2117] font-bold text-[#0 mb-4">
-           
-           Explore the Paradise on Earth
-          </h1>
-          
-
-          <ul className="mt-6 space-y-6 text-lg text-[#0]">
-            <li className="flex items-start">
-              < FaUsersCog  className="mt-1 h-5 w-5 flex-none text-green-00" />
-              <span className="ml-3">
-                <strong className="font-semibold  text-[#0E]">Personalized Service:</strong>
-                Tailoring each journey to your unique preferences, SJ Tour and Travels is committed
-                 to providing a personalized and memorable adventure.
+    <div>
+      {/* About Section */}
+      <div className="container mx-auto py-20 px-4">
+        <div className="flex flex-col md:flex-row items-center gap-10">
+          {/* Image Column */}
+          <div className="w-full md:w-1/2 min-h-[400px] relative">
+            <img
+              className="w-full h-full object-cover rounded-lg"
+              src="https://img.freepik.com/free-photo/two-friends-have-traveling-enjoy-spending-free-time-together-being-experienced-tourists_273609-33386.jpg?t=st=1740315695~exp=1740319295~hmac=b410651bf681e9553894736102d878f0e4750a227b628f20609ff7a91d4c315a&w=1060"
+              alt="Kashmir Landscape"
+            />
+          </div>
+          {/* Text Column */}
+          <div className="w-full md:w-1/2">
+            <div className="inline-block bg-[#4B164C] text-white uppercase tracking-wide px-3 py-1 rounded mb-4">
+              About Us
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-6">
+              Welcome to{" "}
+              <span className="text-indigo-600">
+                Veer Zara Tour and Travel
               </span>
-            </li>
-            <li className="flex items-start">
-              <FaSuitcaseRolling className="mt-1 h-5 w-5 flex-none text-een-600" />
-              <span className="ml-3">
-                <strong className="font-semibold  text-[06A4E]">Expert Guidance:</strong>
-              
-Experience Kashmir with expert guidance. Our seasoned team ensures you enjoy personalized service
- and make the most of your unique adventure.
-              </span>
-            </li>
-            <li className="flex items-start">
-              < AiOutlineSafety className="mt-1 h-5 w-5 flex-none text-een-600" />
-              <span className="ml-3">
-                <strong className="font-semibold  text-[6A4E]">Safety First:</strong>
-                Your safety is our top priority. SJ Tour and Travels adheres to the highest standards of safety, ensuring that your travel experience is not only enjoyable but also secure.
-              </span>
-            </li>
-          </ul>
-
-          <div className="text-center mt-8">
-            <Link to="/aboutus">
-              <button className="bg-[#03AC13]  uppercase text-white py-2 px-4 rounded-md hover:bg-green-600">
-                Read More
-              </button>
+            </h1>
+            <p className="text-gray-700 mb-4">
+              Experience the magic of Kashmir like never before. At Veer
+              Zara Tour and Travel, we offer exclusive journeys that showcase
+              the pristine beauty and rich cultural heritage of Kashmir.
+            </p>
+            <p className="text-gray-700 mb-6">
+              Our expert team curates personalized itineraries featuring scenic
+              helicopter rides, luxurious houseboat stays on Dal Lake, guided
+              treks through breathtaking valleys, and immersive cultural tours.
+              Let us take you on an unforgettable adventure through the
+              enchanting landscapes of Kashmir.
+            </p>
+            {/* Features List */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <div className="flex items-center">
+                <span className="text-indigo-600 mr-2">→</span>
+                <p className="m-0">Scenic Helicopter Rides</p>
+              </div>
+              <div className="flex items-center">
+                <span className="text-indigo-600 mr-2">→</span>
+                <p className="m-0">Luxury Houseboats</p>
+              </div>
+              <div className="flex items-center">
+                <span className="text-indigo-600 mr-2">→</span>
+                <p className="m-0">Guided Treks & Tours</p>
+              </div>
+              <div className="flex items-center">
+                <span className="text-indigo-600 mr-2">→</span>
+                <p className="m-0">Local Cultural Experiences</p>
+              </div>
+              <div className="flex items-center">
+                <span className="text-indigo-600 mr-2">→</span>
+                <p className="m-0">Customized Itineraries</p>
+              </div>
+              <div className="flex items-center">
+                <span className="text-indigo-600 mr-2">→</span>
+                <p className="m-0">24/7 Support</p>
+              </div>
+            </div>
+            <Link
+              to="/about"
+              className="bg-indigo-800 hover:bg-indigo-700 text-white py-3 px-5 rounded-md block text-center"
+            >
+              Read More
             </Link>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
-};
+}
 
-export default AboutUsPage;
+export default About;
