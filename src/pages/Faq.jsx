@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { fetchFaqs } from "srevices/Faqservices"; // Update the path accordingly
-import { BsPlus, BsDash, BsTrash, BsPencil } from "react-icons/bs";
-import { doc, deleteDoc, collection } from "firebase/firestore";
+import { fetchFaqs } from "srevices/Faqservices"; // Update path as needed
+import { doc, deleteDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { db } from "../firebase"; // Import your Firestore instance
+import { db } from "../firebase"; // Your Firestore instance
 import { toast } from "react-toastify";
+
 const FaqSection = () => {
   const [faqs, setFaqs] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [openIndex, setOpenIndex] = useState(null);
 
   useEffect(() => {
     const fetchFaqsData = async () => {
@@ -16,10 +15,9 @@ const FaqSection = () => {
         const faqsData = await fetchFaqs();
         setFaqs(faqsData);
       } catch (error) {
-        console.error("Error fetching FAQs: ", error);
+        console.error("Error fetching FAQs:", error);
       }
     };
-
     fetchFaqsData();
   }, []);
 
@@ -33,68 +31,107 @@ const FaqSection = () => {
     isAdmin = currentUser.isAdmin;
   }
 
+  // Toggle FAQ
   const handleToggle = (index) => {
-    setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
+    setOpenIndex(openIndex === index ? null : index);
   };
 
+  // Delete FAQ (Admin only)
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure wanted to delete featured product ?")) {
+    if (window.confirm("Are you sure you want to delete this FAQ?")) {
       try {
-        setLoading(true);
         await deleteDoc(doc(db, "faqs", id));
-        toast.success("faq deleted successfully");
-        setLoading(false);
+        toast.success("FAQ deleted successfully");
+        // Filter out the deleted FAQ from state
+        setFaqs((prev) => prev.filter((faq) => faq.id !== id));
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
   };
 
   return (
-    <section className=" justify-center lg:p-[9rem] md:p-8 p-3 my-12">
-       
-      
-      <div className="text-center p-4">
-        
-        <h1 className="text-4xl text-[#3D2117] font-extrabold leading-tight mb-4 text-center">
-        Frequently Asked Questions
-      </h1>
-     
+    <section className="py-12 bg-indig">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Title */}
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
+            Explore Common Questions
+          </h2>
+        </div>
 
-       
-      </div>
-      
-      <div className="grid gap-4">
-        {faqs &&
-          faqs.map((faq, index) => (
-            <div key={faq.id} className="rounded-md bg-white p-4 shadow-md ">
-              <div
-                className="flex cursor-pointer items-center justify-between"
+        {/* FAQ Items */}
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div key={faq.id} className="border border-indigo-200 rounded-lg bg-white shadow">
+              {/* Question Header */}
+              <button
+                type="button"
+                className="w-full px-6 py-4 flex justify-between items-center text-left focus:outline-none"
                 onClick={() => handleToggle(index)}
               >
-                <h3 className="text-sm leading-relaxed md:text-lg lg:text-xl xl:text-xl xl:text-xl   text-gray-400 ">{faq.question}</h3>
-                <span className="p-1 rounded-xl text-white text-sm lg:text-xl md:text-lg bg-green-400">
-                  {activeIndex === index ? <BsDash size={25}/> : <BsPlus size={25} />}
+                <span className="text-lg font-medium text-gray-800">
+                  {faq.question}
                 </span>
-              </div>
-              {activeIndex === index && (
-                <span className="text-gray-400 text-sm leading-relaxed md:text-lg lg:text-xl xl:text-xl xl:text-xl  mt-4">{faq.answer}</span>
-              )}
-              {isAdmin && (
-                <div className="mt-4 flex">
-                  <Link to={`/updatefaq/${faq.id}`} className="mr-4 text-blue-500">
-                    <BsPencil size={20} />
-                  </Link>
-                  <button
-                    onClick={() => handleDelete(faq.id)}
-                    className="text-red-500"
-                  >
-                    <BsTrash size={20} />
-                  </button>
+                {/* Rotating Arrow Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-6 w-6 text-indigo-600 transition-transform duration-300 ${openIndex === index ? "rotate-0" : "rotate-180"}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Collapsible Answer */}
+              {openIndex === index && (
+                <div className="px-6 pb-4 text-gray-700">
+                  <p>{faq.answer}</p>
+
+                  {/* Admin Actions */}
+                  {isAdmin && (
+                    <div className="mt-4 flex space-x-4">
+                      {/* Edit */}
+                      <Link to={`/updatefaq/${faq.id}`} className="text-indigo-600 hover:text-indigo-800 transition-colors">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M14.828 2.586a2 2 0 012.828 0l3.758 3.758a2 2 0 010 2.828L9.414 20.172a2 2 0 01-1.414.586H4a1 1 0 01-1-1v-4c0-.53.21-1.04.586-1.414l10.242-10.242zM15 4l5 5-2 2-5-5 2-2zM3 19h3.586l9.172-9.172-3.586-3.586L3 15.414V19z" />
+                        </svg>
+                      </Link>
+
+                      {/* Delete */}
+                      <button
+                        className="text-red-600 hover:text-red-800 transition-colors"
+                        onClick={() => handleDelete(faq.id)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M9 3v1H4v2h1v13a2 2 0 002 2h10a2 2 0 002-2V6h1V4h-5V3H9zm2 2h2v1h-2V5zm7 15H6V6h14v14z" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           ))}
+        </div>
+
+        {/* Footer Text */}
+        <p className="mt-8 text-center text-gray-600">
+          Still have questions?{" "}
+          <span className="text-indigo-600 font-medium">Contact our support</span>
+        </p>
       </div>
     </section>
   );

@@ -32,14 +32,14 @@ const Tours = () => {
       <CommonSection />
 
       <section className="mt-8 mb-[5rem] p-4 pt-0">
-        <div className="text-center p-4">
-          <h1 className="text-4xl font-extrabold text-[#3D2117] leading-tight mb-4 text-center">
-            All Packages - Kashmir Tours
-          </h1>
-          <p className="text-lg text-gray-400 mb-8 text-center">
-            Discover Your Next Adventure in Kashmir with our diverse tour packages.
-          </p>
-        </div>
+      <div className="text-center  mb-1">
+        <h1 className="inline-block bg-[#FFE6C9] text-[#4B164C] uppercase tracking-wide px-3 py-1 rounded-xl">
+          Tour Pakages
+        </h1>
+        <p className="text-xl md:text-2l  font-semold text-gray-200 p-6 mt-2">
+        Immerse yourself in the authentic magic of Kashmir
+        </p>
+      </div>
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             {tours?.map((tour) => (

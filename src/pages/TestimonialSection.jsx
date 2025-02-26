@@ -1,60 +1,103 @@
-// src/pages/TestimonialSection.jsx
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import { MdEmail } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
 
-// Sample testimonial data with a mix of Indian names
 const testimonials = [
   {
     id: 1,
-    photo: "https://randomuser.me/api/portraits/men/32.jpg",
     name: "Rahul Sharma",
-    email: "rahul.sharma@example.com",
     review:
-      "This travel agency provided an unforgettable experience. Highly recommended!",
+      "This travel agency provided an unforgettable experience. Highly recommended! It was truly magical from start to finish with attention to every detail.",
     rating: 5,
   },
   {
     id: 2,
-    photo: "https://randomuser.me/api/portraits/women/65.jpg",
     name: "Ayesha Khan",
-    email: "ayesha.khan@example.com",
     review:
-      "Excellent service and well-organized tours. I loved every moment of the trip.",
+      "Excellent service and well-organized tours. I loved every moment of the trip, the guides were professional and the itinerary was perfectly balanced between adventure and relaxation.",
     rating: 4,
   },
   {
     id: 3,
-    photo: "https://randomuser.me/api/portraits/men/75.jpg",
     name: "Vikram Patel",
-    email: "vikram.patel@example.com",
     review:
-      "A professional team that takes care of every detail. My family had a fantastic time!",
+      "A professional team that takes care of every detail. My family had a fantastic time exploring the beauty and culture of the region. It was a memorable journey.",
     rating: 5,
   },
   {
     id: 4,
-    photo: "https://randomuser.me/api/portraits/women/45.jpg",
     name: "Sunita Verma",
-    email: "sunita.verma@example.com",
     review:
-      "Great value for money with superb customer service. I will definitely book again.",
+      "Great value for money with superb customer service. I will definitely book again. The entire experience was seamless and exceeded all my expectations.",
     rating: 4,
   },
 ];
 
+const TestimonialCard = ({ testimonial }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleReadMore = () => setIsExpanded(!isExpanded);
+
+  const maxLength = 100;
+  const reviewText = testimonial.review;
+  const displayText =
+    isExpanded || reviewText.length <= maxLength
+      ? reviewText
+      : reviewText.substring(0, maxLength) + "...";
+
+  return (
+    <div
+      className="p-6 h-full flex flex-col justify-between"
+      style={{
+        background: "rgba(255, 255, 255, 0.1)",
+        border: "1px solid rgba(255, 255, 255, 0.3)",
+        borderRadius: "12px",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <div>
+        <div className="flex items-center mb-4">
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google Logo"
+            className="mr-4"
+            style={{ width: "40px", height: "40px" }}
+          />
+          <h3 className="text-xl font-semibold text-gray-800">{testimonial.name}</h3>
+        </div>
+        <div className="flex items-center mb-2">
+          {Array.from({ length: testimonial.rating }, (_, index) => (
+            <FaStar key={index} className="text-yellow-400 mr-1" />
+          ))}
+          {Array.from({ length: 5 - testimonial.rating }, (_, index) => (
+            <FaStar key={index} className="text-gray-300 mr-1" />
+          ))}
+        </div>
+        <p className="text-gray-700 italic">
+          {displayText}{" "}
+          {reviewText.length > maxLength && (
+            <button onClick={toggleReadMore} className="text-indigo-600 font-semibold">
+              {isExpanded ? "Show Less" : "Read More"}
+            </button>
+          )}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const TestimonialSection = () => {
-  // Slider settings for react-slick
   const settings = {
     dots: true,
     arrows: true,
     infinite: true,
-    speed: 500,
+    speed: 5000,
     autoplay: true,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 0,
+    cssEase: "linear",
     slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [
@@ -76,41 +119,25 @@ const TestimonialSection = () => {
   };
 
   return (
-    <section id="testimonials" className="py-12 bg-gr">
+    <section id="testimonials" className="py-12">
+      <style>
+        {`
+          .slick-dots li button:before {
+            color: #4F46E5; /* indigo-600 */
+          }
+          .slick-dots li.slick-active button:before {
+            color: #4338CA; /* indigo-700 */
+          }
+        `}
+      </style>
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
           What Our Customers Say
         </h2>
         <Slider {...settings}>
           {testimonials.map((testimonial) => (
             <div key={testimonial.id} className="px-2">
-              <div className="bg-[#FFE6C9] shadow-lg border border-indigo-400 rounded-lg p-6 h-full">
-                <div className="flex items-center mb-4">
-                  <img
-                    src={testimonial.photo}
-                    alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover mr-4"
-                  />
-                  <div>
-                    <h3 className="text-xl font-semibold">
-                      {testimonial.name}
-                    </h3>
-                    <div className="flex items-center text-gray-500 text-sm">
-                      <MdEmail className="mr-1" />
-                      <span>{testimonial.email}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center mb-2">
-                  {Array.from({ length: testimonial.rating }, (_, index) => (
-                    <FaStar key={index} className="text-yellow-400 mr-1" />
-                  ))}
-                  {Array.from({ length: 5 - testimonial.rating }, (_, index) => (
-                    <FaStar key={index} className="text-gray-300 mr-1" />
-                  ))}
-                </div>
-                <p className="text-gray-700 italic">{testimonial.review}</p>
-              </div>
+              <TestimonialCard testimonial={testimonial} />
             </div>
           ))}
         </Slider>

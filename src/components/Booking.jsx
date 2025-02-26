@@ -1,16 +1,13 @@
-// BookingModal.jsx
 import React, { useState, useRef } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import emailjs from '@emailjs/browser';
-import { FaTimes, FaSpinner } from 'react-icons/fa';
+import { FaTimes, FaSpinner, FaCalendarAlt } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './custom-datepicker.css'; // Import custom styles
-import { FaCalendarAlt } from 'react-icons/fa'; // Import calendar icon
+import './custom-datepicker.css';
 
 const BookingModal = ({ tour, isOpen, onClose }) => {
-  // Always call hooks at the top
   const [credentials, setCredentials] = useState({
     userEmail: '',
     fullName: '',
@@ -25,7 +22,6 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   const formRef = useRef();
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Conditionally render after hooks are declared
   if (!isOpen || !tour) {
     return null;
   }
@@ -33,14 +29,12 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
   const { price, title } = tour;
   const serviceFee = 0;
 
-  // Calculate guest count using either adults/children or guestSize
   const guestCount =
     (Number(credentials.adults) || 0) +
     (Number(credentials.children) || 0) ||
     Number(credentials.guestSize || 0);
   const totalAmount = Number(price) * guestCount + Number(serviceFee);
 
-  // Standard change handler for text/number inputs
   const handleChange = (e) => {
     const { id, value } = e.target;
     setCredentials((prev) => ({
@@ -49,7 +43,6 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     }));
   };
 
-  // Dedicated date change handler for DatePicker
   const handleDateChange = (date) => {
     setSelectedDate(date);
     setCredentials((prev) => ({
@@ -58,13 +51,11 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
     }));
   };
 
-  // Validate required fields (adults and children are optional)
   const validateForm = () => {
     const { userEmail, fullName, phone, guestSize, bookAt } = credentials;
     return userEmail && fullName && phone && guestSize && bookAt;
   };
 
-  // Handle form submission
   const sendEmail = async (e) => {
     e.preventDefault();
 
@@ -75,7 +66,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
 
     setIsSubmitting(true);
     try {
-      // Build the booking data for Firebase
+      // Prepare booking data for Firestore
       const bookingData = {
         userId: null,
         userEmail: credentials.userEmail,
@@ -84,22 +75,20 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         guestSize: credentials.guestSize,
         adults: credentials.adults || 0,
         children: credentials.children || 0,
-        bookAt: credentials.bookAt, // This is a Date object
+        bookAt: credentials.bookAt, // Date object
         totalAmount,
         createdAt: new Date(),
         tourTitle: title,
       };
 
-      // Save the booking in Firestore
       await addDoc(collection(db, 'bookings'), bookingData);
 
-      // Send email via EmailJS
-      // Note: Hidden fields below ensure that EmailJS receives tour title, booking date, and total amount.
+      // Send email via EmailJS using the form values including the hidden booking_date
       await emailjs.sendForm(
-        'service_8cskupn',
-        'template_se20hft',
+        'service_wyko8ym',
+        'template_k7qov6n',
         formRef.current,
-        'h92wYviZ8KyHB_Mxm'
+        'cutv7fM1y1AmKZQMc'
       );
 
       setFeedback({
@@ -107,7 +96,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
         type: 'success',
       });
 
-      // Reset form fields and date state
+      // Reset form fields
       setCredentials({
         userEmail: '',
         fullName: '',
@@ -138,7 +127,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <h2 className="text-xl md:text-2xl font-bold text-gray-800">{title}</h2>
             <button
               onClick={onClose}
-              className="bg-green-600 hover:bg-green-500 text-white rounded-full p-2 focus:outline-none"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-full p-2 focus:outline-none"
               aria-label="Close modal"
             >
               <FaTimes size={20} />
@@ -148,7 +137,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
             <div
               className={`mt-2 text-center py-1 px-2 rounded ${
                 feedback.type === 'success'
-                  ? 'bg-green-100 text-green-700'
+                  ? 'bg-indigo-100 text-indigo-700'
                   : 'bg-red-100 text-red-700'
               }`}
             >
@@ -169,7 +158,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 id="userEmail"
                 name="user_email"
                 required
-                className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base"
+                className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-600 focus:border-indigo-600 text-base"
                 onChange={handleChange}
                 value={credentials.userEmail}
               />
@@ -184,7 +173,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   id="fullName"
                   name="user_name"
                   required
-                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base"
+                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-600 focus:border-indigo-600 text-base"
                   onChange={handleChange}
                   value={credentials.fullName}
                 />
@@ -198,7 +187,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   id="phone"
                   name="user_phone"
                   required
-                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base"
+                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-600 focus:border-indigo-600 text-base"
                   onChange={handleChange}
                   value={credentials.phone}
                 />
@@ -211,13 +200,12 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                 </label>
                 <div className="relative mt-1">
                   <DatePicker
-                    id='bookAt'
-                    name="bookAt"
+                    id="bookAt"
+                    name="book_at"
                     required
                     selected={selectedDate}
                     onChange={handleDateChange}
-                    value={credentials.bookAt}
-                    className="w-full border border-gray-300 p-2 rounded-md focus:ring-green-600 focus:border-green-600 text-base"
+                    className="w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-600 focus:border-indigo-600 text-base"
                     dateFormat="yyyy-MM-dd"
                     calendarClassName="custom-calendar"
                     popperPlacement="bottom-start"
@@ -245,7 +233,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   id="guestSize"
                   name="guest_size"
                   required
-                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base"
+                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-600 focus:border-indigo-600 text-base"
                   onChange={handleChange}
                   value={credentials.guestSize}
                 />
@@ -260,7 +248,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   type="number"
                   id="adults"
                   name="adults"
-                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base"
+                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-600 focus:border-indigo-600 text-base"
                   onChange={handleChange}
                   value={credentials.adults}
                 />
@@ -273,29 +261,29 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
                   type="number"
                   id="children"
                   name="children"
-                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base"
+                  className="mt-1 block w-full border border-gray-300 p-2 rounded-md focus:ring-indigo-600 focus:border-indigo-600 text-base"
                   onChange={handleChange}
                   value={credentials.children}
                 />
               </div>
             </div>
 
-            {/* Display calculated totals */}
+            {/* Calculated Totals */}
             <div className="flex items-center justify-between">
-              <span className="text-sm bg-green-100 font-medium rounded-md px-3 py-1 text-gray-700">
+              <span className="text-sm bg-indigo-100 font-medium rounded-md px-3 py-1 text-gray-700">
                 Per Person: {price}
               </span>
-              <span className="text-sm bg-green-100 font-medium rounded-md px-4 py-2 text-gray-700">
+              <span className="text-sm bg-indigo-100 font-medium rounded-md px-4 py-2 text-gray-700">
                 Total: ₹ {totalAmount || 0}
               </span>
             </div>
 
-            {/* Hidden fields to include in EmailJS form submission */}
+            {/* Hidden Fields for EmailJS */}
             <input type="hidden" name="tour_title" value={title} />
             <input
               type="hidden"
               name="booking_date"
-              value={selectedDate.toISOString().split('T')[0]} // Format: YYYY-MM-DD
+              value={selectedDate.toISOString().split('T')[0]}
             />
             <input type="hidden" name="total_amount" value={totalAmount} />
 
@@ -303,7 +291,7 @@ const BookingModal = ({ tour, isOpen, onClose }) => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md w-full hover:bg-green-700 disabled:opacity-75 focus:outline-none text-base"
+                className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-md w-full hover:bg-indigo-700 disabled:opacity-75 focus:outline-none text-base"
               >
                 {isSubmitting && <FaSpinner className="animate-spin" />}
                 <span>{isSubmitting ? 'Processing...' : 'Confirm Booking'}</span>

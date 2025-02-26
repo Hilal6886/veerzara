@@ -15,12 +15,12 @@ const places = [
 const settings = {
   infinite: true,
   autoplay: true,
-  autoplaySpeed: 2000,
-  speed: 700,
+  autoplaySpeed: 0,
+  speed: 5000,
+  cssEase: "linear",
   slidesToShow: 4,
   slidesToScroll: 1,
-  nextArrow: <NextArrow />,
-  prevArrow: <PrevArrow />,
+ 
   responsive: [
     { breakpoint: 1280, settings: { slidesToShow: 3 } },
     { breakpoint: 1024, settings: { slidesToShow: 2 } },
@@ -28,48 +28,24 @@ const settings = {
   ],
 };
 
-function PrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-indigo-800 text-white p-3 rounded-full shadow-lg hover:bg-indigo-900 transition"
-      onClick={onClick}
-      style={{ left: ".rem" }}
-    >
-      <FaChevronLeft size={20} />
-    </button>
-  );
-}
 
-function NextArrow(props) {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-indigo-800 text-white p-3 rounded-full shadow-lg hover:bg-indigo-900 transition"
-      onClick={onClick}
-      style={{ right: ".rem" }}
-    >
-      <FaChevronRight size={20} />
-    </button>
-  );
-}
 
 const ExploreCarousel = () => {
   const cloudinaryBase = "https://res.cloudinary.com/ddccbvbku/image/upload/";
   const transformations = "w_800,h_500,c_fill,q_auto,f_auto";
 
   return (
-    <div className="py-6">
-      <div className="text-center lg:mt-[-5rem] mb-3">
-        <h1 className="inline-block  bg-[#4B164C] text-white uppercase tracking-wide px-3 py-1 rounded">
+    <div className="container">
+      <div className="text-center lg:mt-[-3rem] mb-1">
+        <h1 className="inline-block bg-[#FFE6C9] text-[#4B164C] uppercase tracking-wide px-3 py-1 rounded-xl">
           Top Destinations
         </h1>
-        <p className="text-lg md:text-xl text-[#4B164C] p-6 mt-2">
+        <p className="text-xl md:text-2l  font-semold text-gray-200 p-6 mt-2">
           Explore the most breathtaking locations for your next vacation in Kashmir.
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-8 bg-[#FFFBCA] py-8 rounded-xl relative">
+      <div className="max-w-7xl mx-auto px-8 py-8 rounded-xl relative">
         <Slider {...settings}>
           {places.map((place, index) => (
             <div key={index} className="p-4">
@@ -80,9 +56,10 @@ const ExploreCarousel = () => {
                   className="w-full h-80 object-cover rounded-xl transition-transform duration-300 hover:scale-105 shadow-lg"
                   loading="lazy"
                 />
-                <div className="absolute bottom-4 left-5 right-4 bg-white bg-opacity-40 text-indigo-900 p-1 rounded-md text-center">
-                  <h3 className="text-lg font-semibold">{place.name}</h3>
-                  <p className="text-sm">{place.distance}</p>
+                {/* Overlay with name and distance at the top */}
+                <div className="absolute top-1 left-4 right-4  p-3 rounded-md text-center">
+                  <h3 className="text-lg font-semibold text-white">{place.name}</h3>
+                  <p className="text-sm text-white">{place.distance}</p>
                 </div>
               </div>
             </div>

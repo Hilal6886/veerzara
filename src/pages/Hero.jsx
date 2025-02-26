@@ -23,18 +23,20 @@ const HomeSection = () => {
             <section>
                 <Courses />
             </section>
-            <section>
-                 <TestimonialSection/>
-                  </section>
+           
             <section>
                 <Category />
             </section>
+           
             <section>
                 <Offer />
             </section>
             <section>
                 <Blog />
             </section>
+            <section>
+                 <TestimonialSection/>
+                  </section>
             <section>
                 <FaqSection />
             </section>

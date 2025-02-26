@@ -45,7 +45,7 @@ const ArfaSchool = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user || {});
       setCurrentUser(user || {});
-      console.log("USERRRRRRRRRRRRRRRRRRRRRRRRR", user);
+    
     });
 
     return () => unsubscribe();
@@ -97,7 +97,7 @@ const ArfaSchool = () => {
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center min-h-screen bg-gray-100">
     <div className="relative w-16 h-16">
-      <div className="absolute w-full h-full border-4 border-t-4 border-green-600 border-solid rounded-full animate-spin"></div>
+      <div className="absolute w-full h-full border-4 border-t-4 border-indigo-600 border-solid rounded-full animate-spin"></div>
     </div>
   </div>
 );

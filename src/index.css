@@ -7,7 +7,7 @@
 body {
   font-family: 'Poppins', sans-serif;
   color: #333;
-  background-color: #FFFBCA;
+  background-color: white;
 }
 
 /* Headings */
@@ -16,18 +16,6 @@ h1, h2, h3 {
 }
 
 /* Branding / Logo Font */
-.brand-text {
-  font-family: 'Pacifico', cursive;
-  color: #059669; /* Tailwind green-600 */
-}
 
-/* Scroll Indicator */
-.scroll-indicator {
-  background-color: #059669; /* Tailwind green-600 */
-  height: 3px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: opacity 0.3s ease-in-out;
-}
+
+

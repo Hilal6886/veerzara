@@ -1,59 +1,43 @@
-// src/shared/TourCard.jsx
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { BsTrash, BsPencil } from 'react-icons/bs';
-import {
-  FaStar,
-  FaSpinner,
-  FaRupeeSign,
-  FaTaxi,
-  FaUserTie,
-  FaMapMarkedAlt,
-  FaHeadset,
-  FaShieldAlt,
-  FaUsers,
-} from 'react-icons/fa';
-import { AiOutlineClockCircle } from 'react-icons/ai';
-import { RiArticleLine } from 'react-icons/ri';
-import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase';
-import Aos from 'aos';
-import 'aos/dist/aos.css';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { MdDelete, MdEdit, MdStar } from "react-icons/md";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../firebase";
+import Aos from "aos";
+import "aos/dist/aos.css";
+import { GiHouse, GiBoatFishing, GiFlowerPot, GiKnifeFork, GiCastle } from "react-icons/gi";
+import { FaMountain } from "react-icons/fa";
 
-// Updated amenities list for a travel agency card
+// Kashmir-specific amenities list (6 items)
 const amenitiesList = [
-  { icon: <FaTaxi />, label: 'Cab Service', bgColor: 'bg-blue-500' },
-  { icon: <FaUserTie />, label: 'Tour Guide', bgColor: 'bg-green-500' },
-  { icon: <FaMapMarkedAlt />, label: 'Custom Itinerary', bgColor: 'bg-purple-500' },
-  { icon: <FaHeadset />, label: '24/7 Support', bgColor: 'bg-red-500' },
-  { icon: <FaShieldAlt />, label: 'Travel Insurance', bgColor: 'bg-yellow-500' },
-  { icon: <FaUsers />, label: 'Group Booking', bgColor: 'bg-indigo-500' },
+  { icon: <GiHouse />, label: "Houseboats", bgColor: "bg-teal-500" },
+  { icon: <GiBoatFishing />, label: "Shikara Ride", bgColor: "bg-orange-500" },
+  { icon: <GiFlowerPot />, label: "Gardens", bgColor: "bg-green-500" },
+  { icon: <FaMountain />, label: "Trekking", bgColor: "bg-purple-500" },
+  { icon: <GiKnifeFork />, label: "Cuisine", bgColor: "bg-red-500" },
+  { icon: <GiCastle />, label: "Heritage", bgColor: "bg-indigo-500" },
 ];
 
 const TourCard = ({ tour, onBook = () => {} }) => {
   const [loading, setLoading] = useState(false);
+  const { id, imgUrl, price, title, duration, rating } = tour;
 
-  const userData = localStorage.getItem('USER');
-  let currentUser = null;
+  // Determine if the user is an admin for edit/delete actions
+  const userData = localStorage.getItem("USER");
   let isAdmin = false;
   if (userData) {
-    currentUser = JSON.parse(userData);
+    const currentUser = JSON.parse(userData);
     isAdmin = currentUser.isAdmin;
   }
 
-  const { id, imgUrl, price, title, duration, rating } = tour;
+  const scrollToTop = () =>
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Scroll to top when a link is clicked
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Handle deletion with a loading indicator
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this Tour?')) {
+    if (window.confirm("Are you sure you want to delete this tour?")) {
       try {
         setLoading(true);
-        await deleteDoc(doc(db, 'tours', id));
+        await deleteDoc(doc(db, "tours", id));
       } catch (err) {
         console.error(err);
       } finally {
@@ -66,99 +50,104 @@ const TourCard = ({ tour, onBook = () => {} }) => {
     Aos.init({ duration: 2000 });
   }, []);
 
-  // Render exactly 5 star icons based on the rating
+  // Render 5 stars, using a lighter yellow for stars beyond the rating value
   const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <FaStar
-        key={index}
-        className={index < rating ? 'text-yellow-400' : 'text-yellow-600'}
+    return Array.from({ length: 5 }, (_, i) => (
+      <MdStar
+        key={i}
+        className={i < rating ? "text-yellow-500" : "text-yellow-300"}
+        size={20}
       />
     ));
   };
 
   return (
-    <div className="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto bg-[#FFE6C9] text-gray-800 rounded-lg overflow-hidden shadow-lg transition duration-300 hover:shadow-2xl">
+    <div
+      className="max-w-sm md:max-w-md lg:max-w-lg bg-white rounded-xl overflow-hidden shadow-xl transform transition hover:scale-105"
+      data-aos="fade-up"
+    >
       <div className="relative">
-        {/* Responsive image height */}
+        {/* Header Image */}
         <img
-          className="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover"
+          className="w-full h-56 object-cover"
           src={imgUrl}
-          alt="tour"
+          alt={title}
         />
+        {/* Admin Controls */}
         {isAdmin && (
-          <div className="absolute top-2 right-2 flex space-x-2">
+          <div className="absolute top-3 right-3 flex space-x-2">
             {loading ? (
-              <FaSpinner className="text-blue-600 animate-spin" size={24} />
+              <div className="animate-spin text-blue-500">
+                <MdStar size={24} />
+              </div>
             ) : (
               <>
                 <button
                   onClick={() => handleDelete(id)}
-                  className="text-red-600 hover:text-red-800 focus:outline-none"
+                  className="bg-red-100 p-2 rounded-full hover:bg-red-200"
                   aria-label="Delete tour"
                 >
-                  <BsTrash size={24} />
+                  <MdDelete size={20} className="text-red-500" />
                 </button>
-                <Link to={`/tous/${id}`}>
-                  <BsPencil className="text-blue-600 hover:text-blue-800" size={24} />
+                <Link
+                  to={`/tour/edit/${id}`}
+                  className="bg-blue-100 p-2 rounded-full hover:bg-blue-200"
+                  aria-label="Edit tour"
+                >
+                  <MdEdit size={20} className="text-blue-500" />
                 </Link>
               </>
             )}
           </div>
         )}
+        {/* Featured Badge */}
+        <div className="absolute bottom-3 left-3 bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+          Featured
+        </div>
       </div>
 
-      <div className="p-4">
-        {/* Price Section with Icon */}
-        <div className="flex items-center justify-between mb-2">
-          <h6 className="text-xl font-semibold flex items-center gap-2">
-            <FaRupeeSign size={20} /> {price}
-          </h6>
-          <span className="bg-[#FCDE70] rounded text-black p-1 text-sm">Featured</span>
-        </div>
-
-        {/* Title Section with Icon */}
-        <h5 className="text-lg font-semibold flex items-center gap-2 mb-2">
-          <RiArticleLine size={20} />
-          <Link to={`/tour/${id}`} onClick={scrollToTop} className="hover:underline">
-            {title}
-          </Link>
-        </h5>
-
-        {/* Duration and Rating Section */}
+      <div className="p-6">
+        {/* Title & Price */}
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <AiOutlineClockCircle className="text-gray-600" size={18} />
-            <small className="text-lg">{duration}</small>
-          </div>
-          <div className="flex items-center gap-2">{renderStars(rating)}</div>
+          <h3 className="text-xl font-samibold text-gray-900">{title}</h3>
+         
         </div>
 
-        {/* Amenities Section (Responsive Grid) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
-          {amenitiesList.map((amenity, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              <div
-                className={`p-2 rounded-lg ${amenity.bgColor} text-white text-lg`}
-              >
-                {amenity.icon}
+        {/* Rating */}
+        <div className="flex items-center justify-between gap-3 mb-4">
+          {renderStars(rating)}
+          <span className="ml-[7rem] text-sm text-gray-600">{rating} </span>
+          <span className="text-lg font-seibold text-gray-800">₹{price} </span>
+        </div>
+
+        {/* Amenities with Top Border */}
+        <div className="border-t border-gray-200 pt-4 mb-6">
+          <div className="grid grid-cols-3 gap-4">
+            {amenitiesList.map((amenity, index) => (
+              <div key={index} className="flex flex-col items-center">
+                <div className={`p-3 rounded-full ${amenity.bgColor} text-white`}>
+                  {amenity.icon}
+                </div>
+                <span className="mt-1 text-xs text-gray-700">
+                  {amenity.label}
+                </span>
               </div>
-              <span className="text-xs sm:text-sm">{amenity.label}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row justify-between gap-2 mt-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Link
             to={`/tour/${id}`}
             onClick={scrollToTop}
-            className="w-full sm:w-1/2 text-center border border-green-600 uppercase text-black py-2 px-4 rounded-md hover:bg-green-700 transition duration-300"
+            className="flex-1 text-center border border-purple-600 text-purple-600 py-2 rounded-md hover:bg-purple-600 hover:text-white transition"
           >
-            View More
+            Details
           </Link>
           <button
             onClick={onBook}
-            className="w-full sm:w-1/2 bg-[#185519] uppercase text-white py-2 px-4 rounded-md hover:bg-green-700 transition duration-300"
+            className="flex-1 bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition"
           >
             Book Now
           </button>
