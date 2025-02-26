@@ -84,13 +84,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="dark:bg-gray-900 border-gray-200 dark:border-gray-600 w-full border-b bg-white start-0 sticky fixed top-0 z-20 " aria-controls="navbar-sticky">
+    <nav className="dark:bg-gray-900 border-gray-200 dark:border-gray-600 w-full border-b bg-[#FFFBCA] start-0 sticky fixed top-0 z-20 " aria-controls="navbar-sticky">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-0">
         <div className="z-50  md:w-auto w-full flex justify-between">
           <div className="flex">
            
             <div className="gap-[2px] mx-[-0.3rem] mt-2 ">
-              <p className="text-[18px] mt-[6] font-bold text-[#000000] md:mt-[8px] mb-[-0.5rem]">veer zara</p>
+              <p className="text-[23px] mt-[6] text-center font-bold text-[#000000] md:mt-[4px] mb-[-0.5rem]">veer zara</p>
               <span className="text-[14px] font-medium ml-[8px] text-center  text-[#000000] ">TOUR AND TRAVELS</span>
             </div>
           </div>
@@ -153,7 +153,7 @@ const Navbar = () => {
               <Link>
                 <button
                   data-collapse-toggle="navbar-sticky"
-                  className="bg-[#03AC13] uppercase text-white py-2 px-4 rounded-md hover:bg-green-600"
+                  className="bg-indigo-800 hover:bg-indigo-900 uppercase text-white py-2 px-4 rounded-md hover:bg-green-600"
 
                   onClick={logout}
                 >
@@ -168,7 +168,7 @@ const Navbar = () => {
                 <button
                   data-collapse-toggle="navbar-sticky"
                   type="button"
-                  className="bg-[#03AC13] uppercase text-white py-2 px-4 rounded-md hover:bg-green-600"
+                  className="bg-indigo-800 hover:bg-indigo-900 uppercase text-white py-2 px-4 rounded-md hover:bg-green-600"
                 >
                   Sign In
                 </button>

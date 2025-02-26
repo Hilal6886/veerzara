@@ -77,7 +77,7 @@ const TourCard = ({ tour, onBook = () => {} }) => {
   };
 
   return (
-    <div className="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto bg-gradient-to-r from-white via-white to-gray-100 text-gray-800 rounded-lg overflow-hidden shadow-lg transition duration-300 hover:shadow-2xl">
+    <div className="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto bg-[#FFE6C9] text-gray-800 rounded-lg overflow-hidden shadow-lg transition duration-300 hover:shadow-2xl">
       <div className="relative">
         {/* Responsive image height */}
         <img

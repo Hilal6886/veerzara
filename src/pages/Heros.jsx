@@ -47,74 +47,102 @@ export default function Hero() {
         setEmail("");
         setPhone("");
       } else {
-        setModal({ isOpen: true, message: "Submission failed. Please try again." });
+        setModal({
+          isOpen: true,
+          message: "Submission failed. Please try again.",
+        });
       }
     } catch (error) {
       console.error("Error submitting the form:", error);
-      setModal({ isOpen: true, message: "An error occurred. Please try again later." });
+      setModal({
+        isOpen: true,
+        message: "An error occurred. Please try again later.",
+      });
     }
   };
 
   return (
     <section id="hero" className="relative w-full h-screen overflow-hidden">
-      <Modal isOpen={modal.isOpen} message={modal.message} onClose={() => setModal({ isOpen: false, message: "" })} />
+      <Modal
+        isOpen={modal.isOpen}
+        message={modal.message}
+        onClose={() => setModal({ isOpen: false, message: "" })}
+      />
+
+      {/* Background Video */}
       <div className="h-screen relative">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute top-0 left-0 w-full h-[90%] lg:h-[70%] object-cover"
+          className="absolute top-0 left-0 w-full h-[90%] lg:h-[85%] object-cover"
         >
-          <source src="https://videos.pexels.com/video-files/13750318/13750318-uhd_2560_1440_60fps.mp4" type="video/mp4" />
+          <source
+            src="https://res.cloudinary.com/ddccbvbku/video/upload/v1740577340/nrz9iba1ytamoc0ei2xt.mp4"
+            type="video/mp4"
+          />
         </video>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
       </div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white z-10">
+
+      {/* Form Container */}
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                      md:top-1/2 md:left-[-rem] lg:left-[1rem] md:translate-x-0 text-white z-10">
         <form
           onSubmit={handleGetQuote}
-          className="bg-white bg-opacity-20 p-6 w-[20rem] rounded-md shadow-md backdrop-blur-md lg:w-[50rem] mx-auto text-center"
+          className="bg-white bg-opacity-10 p-6 w-[20rem] rounded-md shadow-md 
+                     backdrop-blur-md lg:w-[35rem] lg:mt-[-4rem] mx-auto text-center flex flex-col gap-4"
         >
-          <h1 className="text-2xl sm:text-3xl font-bold uppercase">
-            Discover Unforgettable Adventures
+          {/* Title */}
+          <h1 className="text-2xl sm:text-3xl text-white drop-shadow-md font-bold uppercase">
+            Discover Unforgettable Adventures in Kashmir
           </h1>
+
+          {/* Subtitle */}
           <p className="text-sm sm:text-base mt-2">
             Plan your dream journey with Veer Zara Tour and Travel.
           </p>
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+
+          {/* Form Inputs (Always in Column) */}
           <input
-              type="text"
-              id="name"
-              placeholder="Your Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 border border-indigo-500 rounded-md bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-2"
-              required
-            />
-            <input
-              type="email"
-              id="email"
-              placeholder="Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-indigo-500 rounded-md bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-2"
-              required
-            />
-            <input
-              type="tel"
-              id="phone"
-              placeholder="Phone Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full p-2 border border-indigo-500 rounded-md bg-transparent text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-2"
-            />
-            <button
-              type="submit"
-              className="bg-indigo-800 hover:bg-indigo-900 text-white py-2 px-4 rounded-md transition-all duration-300 w-full mt-3"
-            >
-              Get a Quote
-            </button>
-          </div>
+            type="text"
+            id="name"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full p-2 border border-indigo-500 rounded-md bg-white bg-opacity-10 text-white 
+                       placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+          <input
+            type="email"
+            id="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-2 border border-indigo-500 rounded-md bg-white bg-opacity-10 text-white 
+                       placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Phone Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="w-full p-2 border border-indigo-500 rounded-md bg-white bg-opacity-10 text-white 
+                       placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="bg-indigo-800 hover:bg-indigo-900 text-white py-2 px-4 rounded-md 
+                      transition-all duration-300 w-full"
+          >
+            Get a Quote
+          </button>
         </form>
       </div>
     </section>

@@ -76,7 +76,7 @@ const TestimonialSection = () => {
   };
 
   return (
-    <section id="testimonials" className="py-12 bg-gray-100">
+    <section id="testimonials" className="py-12 bg-gr">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8">
           What Our Customers Say
@@ -84,7 +84,7 @@ const TestimonialSection = () => {
         <Slider {...settings}>
           {testimonials.map((testimonial) => (
             <div key={testimonial.id} className="px-2">
-              <div className="bg-white shadow-lg border border-green-900 rounded-lg p-6 h-full">
+              <div className="bg-[#FFE6C9] shadow-lg border border-indigo-400 rounded-lg p-6 h-full">
                 <div className="flex items-center mb-4">
                   <img
                     src={testimonial.photo}
