@@ -35,30 +35,27 @@ const ExploreCarousel = () => {
   const transformations = "w_800,h_500,c_fill,q_auto,f_auto";
 
   return (
-    <div className="container">
-      <div className="text-center lg:mt-[-3rem] mb-1">
-        <h1 className="inline-block bg-[#FFE6C9] text-[#4B164C] uppercase tracking-wide px-3 py-1 rounded-xl">
-          Top Destinations
-        </h1>
-        <p className="text-xl md:text-2l  font-semold text-gray-200 p-6 mt-2">
-          Explore the most breathtaking locations for your next vacation in Kashmir.
-        </p>
-      </div>
+    <div className="py-6 bg-[#FFF2AF] -to-br from-purple-400 to-indigo-500">
+      {/* Section Title & Subtitle */}
 
-      <div className="max-w-7xl mx-auto px-8 py-8 rounded-xl relative">
+      {/* Slider */}
+      <div className="max-w-7xl mx-auto relative">
         <Slider {...settings}>
           {places.map((place, index) => (
-            <div key={index} className="p-4">
+            <div key={index} className="px-4">
               <div className="relative">
                 <img
                   src={`${cloudinaryBase}${transformations}/${place.img}`}
                   alt={place.name}
-                  className="w-full h-80 object-cover rounded-xl transition-transform duration-300 hover:scale-105 shadow-lg"
+                  className="w-full h-64 object-cover rounded-xl transition-transform duration-500 hover:scale-105 shadow-lg"
                   loading="lazy"
                 />
-                {/* Overlay with name and distance at the top */}
-                <div className="absolute top-1 left-4 right-4  p-3 rounded-md text-center">
-                  <h3 className="text-lg font-semibold text-white">{place.name}</h3>
+                {/* Overlay for Name and Distance */}
+                <div 
+                  className="absolute bottom-4 left-4 right-4 p-2 text-center"
+                  style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.8)" }}
+                >
+                  <h3 className="text-lg font-bold text-white">{place.name}</h3>
                   <p className="text-sm text-white">{place.distance}</p>
                 </div>
               </div>

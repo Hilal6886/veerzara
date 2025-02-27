@@ -48,7 +48,7 @@ const TestimonialCard = ({ testimonial }) => {
 
   return (
     <div
-      className="p-6 h-full flex flex-col justify-between"
+      className="p-5 h-full flex flex-col justify-between"
       style={{
         background: "rgba(255, 255, 255, 0.1)",
         border: "1px solid rgba(255, 255, 255, 0.3)",
@@ -76,10 +76,10 @@ const TestimonialCard = ({ testimonial }) => {
             <FaStar key={index} className="text-gray-300 mr-1" />
           ))}
         </div>
-        <p className="text-gray-700 italic">
+        <p className="text-gray-700 italic text-sm">
           {displayText}{" "}
           {reviewText.length > maxLength && (
-            <button onClick={toggleReadMore} className="text-indigo-600 font-semibold">
+            <button onClick={toggleReadMore} className="text-indigo-600 font-sebold">
               {isExpanded ? "Show Less" : "Read More"}
             </button>
           )}
@@ -119,7 +119,7 @@ const TestimonialSection = () => {
   };
 
   return (
-    <section id="testimonials" className="py-12">
+    <section id="testimonials" className="py-12 bg-[#fff">
       <style>
         {`
           .slick-dots li button:before {
@@ -130,10 +130,18 @@ const TestimonialSection = () => {
           }
         `}
       </style>
-      <div className="container mx-auto px-4">
+      <div className="container  mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          What Our Customers Say
+         
         </h2>
+        <div className="text-center mb-[3rem]">
+          <h1 className="inline-block bg-indigo-100 text-indigo-900 uppercase tracking-wide px-4 py-2 rounded-xl">
+            Testimonial
+          </h1>
+          <p className="text-xl md:text-2xl font-medium text-gray-200 mt-4">
+          What Our Customers Say
+          </p>
+        </div>
         <Slider {...settings}>
           {testimonials.map((testimonial) => (
             <div key={testimonial.id} className="px-2">

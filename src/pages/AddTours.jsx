@@ -21,7 +21,7 @@ const initialState = {
   sightseeing: [] // Array of day objects: { dayTitle: "", dayDescription: "" }
 };
 
-const AddEditBlog = ({ user, setActive }) => {
+const AddTours = ({ user, setActive }) => {
   const [form, setForm] = useState(initialState);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -58,19 +58,31 @@ const AddEditBlog = ({ user, setActive }) => {
   // If editing, load the existing tour details.
   useEffect(() => {
     if (id) {
-      getBlogDetail();
+      const getTourDetail = async () => {
+        try {
+          const docRef = doc(db, "tours", id);
+          const snapshot = await getDoc(docRef);
+          if (snapshot.exists()) {
+            setForm({ ...snapshot.data() });
+          } else {
+            setFeedback({
+              message: "Tour not found.",
+              type: "error",
+            });
+          }
+          if (setActive) setActive(null);
+        } catch (error) {
+          console.error("Error fetching tour details:", error);
+          setFeedback({
+            message: "Error fetching tour details.",
+            type: "error",
+          });
+        }
+      };
+      getTourDetail();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
-  const getBlogDetail = async () => {
-    const docRef = doc(db, "tours", id);
-    const snapshot = await getDoc(docRef);
-    if (snapshot.exists()) {
-      setForm({ ...snapshot.data() });
-    }
-    if (setActive) setActive(null);
-  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -107,7 +119,6 @@ const AddEditBlog = ({ user, setActive }) => {
     const updatedSightseeing = form.sightseeing.filter((_, i) => i !== index);
     setForm({ ...form, sightseeing: updatedSightseeing });
   };
-
   // ----------------------------------------------------
 
   const handleSubmit = async (e) => {
@@ -170,7 +181,6 @@ const AddEditBlog = ({ user, setActive }) => {
           type: "success",
         });
       }
-      // After submission, navigate to home (or adjust as needed)
       navigate("/");
     } catch (err) {
       console.error(err);
@@ -192,7 +202,6 @@ const AddEditBlog = ({ user, setActive }) => {
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           {id ? "Update Tour" : "Create Tour"}
         </h1>
-        {/* Inline Feedback Message */}
         {feedback.message && (
           <div
             className={`mb-4 p-2 rounded-md text-center ${
@@ -211,7 +220,7 @@ const AddEditBlog = ({ user, setActive }) => {
             id="title"
             name="title"
             placeholder="Enter title"
-            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-purple-500"
             value={title}
             onChange={handleChange}
           />
@@ -222,7 +231,7 @@ const AddEditBlog = ({ user, setActive }) => {
             id="description"
             name="description"
             placeholder="Enter description"
-            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-purple-500"
             value={description}
             onChange={handleChange}
           />
@@ -234,7 +243,7 @@ const AddEditBlog = ({ user, setActive }) => {
             id="duration"
             name="duration"
             placeholder="Enter duration (e.g., 5 days)"
-            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-purple-500"
             value={duration}
             onChange={handleChange}
           />
@@ -246,7 +255,7 @@ const AddEditBlog = ({ user, setActive }) => {
             id="price"
             name="price"
             placeholder="Enter price"
-            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-blue-500"
+            className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-3 outline-none focus:border-purple-500"
             value={price}
             onChange={handleChange}
           />
@@ -256,7 +265,7 @@ const AddEditBlog = ({ user, setActive }) => {
           <h3 className="text-gray-400">Upload an image</h3>
           <input
             type="file"
-            className="w-full p-3 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full p-3 rounded-md focus:outline-none focus:ring focus:border-purple-300"
             onChange={handleFileChange}
           />
           {file && (
@@ -280,7 +289,7 @@ const AddEditBlog = ({ user, setActive }) => {
                 <input
                   type="text"
                   placeholder={`Day ${index + 1} Title`}
-                  className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-2 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-2 outline-none focus:border-purple-500"
                   value={day.dayTitle}
                   onChange={(e) =>
                     handleSightseeingChange(index, "dayTitle", e.target.value)
@@ -290,14 +299,10 @@ const AddEditBlog = ({ user, setActive }) => {
               <div>
                 <textarea
                   placeholder={`Day ${index + 1} Description`}
-                  className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-2 outline-none focus:border-blue-500"
+                  className="w-full bg-gray-100 border-2 border-gray-200 rounded-md p-2 outline-none focus:border-purple-500"
                   value={day.dayDescription}
                   onChange={(e) =>
-                    handleSightseeingChange(
-                      index,
-                      "dayDescription",
-                      e.target.value
-                    )
+                    handleSightseeingChange(index, "dayDescription", e.target.value)
                   }
                 />
               </div>
@@ -315,7 +320,7 @@ const AddEditBlog = ({ user, setActive }) => {
           <button
             type="button"
             onClick={addSightseeingDay}
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+            className="bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 transition duration-300"
           >
             Add Another Day
           </button>
@@ -323,7 +328,7 @@ const AddEditBlog = ({ user, setActive }) => {
         {/* Submit Button with Processing Icon */}
         <div className="mb-6">
           <button
-            className="w-full bg-blue-500 text-white rounded-md py-3 hover:bg-blue-600 transition duration-300 flex items-center justify-center gap-2"
+            className="w-full bg-purple-500 text-white rounded-md py-3 hover:bg-purple-600 transition duration-300 flex items-center justify-center gap-2"
             type="submit"
             disabled={uploading || isSubmitting}
           >
@@ -336,4 +341,4 @@ const AddEditBlog = ({ user, setActive }) => {
   );
 };
 
-export default AddEditBlog;
+export default AddTours;

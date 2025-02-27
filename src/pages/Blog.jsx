@@ -45,22 +45,21 @@ const Blog = ({ user, active }) => {
   }
 
   return (
-    <section className=" mt-[3rm] p-4 py-12">
+    <section className="container mt-[3rm] p-4 py-12">
   
 
-      <div className="text-center p-4">
-        
-        <h1 className="text-4xl text-[#3D2117] font-extrabold leading-tight mb-4 text-center">
-        Our Daily Blogs
-      </h1>
-      <p className="text-lg text-gray-400 mb-8 text-center">
-      Dive into Our Daily Blogs
-      </p>
+    
+      <div className="text-center mb-[3rem]">
+          <h1 className="inline-block bg-indigo-100 text-indigo-900 uppercase tracking-wide px-4 py-2 rounded-xl">
+            Blogs
+          </h1>
+          <p className="text-xl md:text-2xl font-medium text-gray-200 mt-4">
+          Dive into Our Daily Blogs
+          </p>
+        </div>
+      
 
-       
-      </div>
-
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {blogs.map((blog) => (
           <BlogSection key={blog.id} user={user} handleDelete={handleDelete} {...blog} />
         ))}

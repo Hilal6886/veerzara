@@ -51,13 +51,17 @@ const FaqSection = () => {
   };
 
   return (
-    <section className="py-12 bg-indig">
+    <section className="container py-12 bg-indig">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title */}
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">
-            Explore Common Questions
-          </h2>
+        
+        <div className="text-center mb-[3rem]">
+          <h1 className="inline-block bg-indigo-100 text-indigo-900 uppercase tracking-wide px-4 py-2 rounded-xl">
+            FAQ
+          </h1>
+          <p className="text-xl md:text-2xl font-medium text-gray-200 mt-4">
+          Explore Common Questions
+          </p>
         </div>
 
         {/* FAQ Items */}

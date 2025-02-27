@@ -52,11 +52,16 @@ const Offer = () => {
   };
 
   return (
-    <section className="mt-[rem] p-4 py-12">
-      <div className="text-center p-4">
-        <h1 className="text-4xl text-[#3D2117] font-extrabold leading-tight mb-4">Our Luxury Hotels</h1>
-        <p className="text-lg text-gray-400 mb-8">We are committed to providing you with the best experiences.</p>
-      </div>
+    <section className=" container mt-[rem] p-4 py-12">
+
+      <div className="text-center mb-[3rem]">
+          <h1 className="inline-block bg-indigo-100 text-indigo-900 uppercase tracking-wide px-4 py-2 rounded-xl">
+          Our Luxury Hotels
+          </h1>
+          <p className="text-xl md:text-2xl font-medium text-gray-200 mt-4">
+          We are committed to providing you with the best experiences
+          </p>
+        </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         {offers.map(({ id, imgUrl, stTdeitle, location, price, title }) => (
           <div
@@ -67,7 +72,7 @@ const Offer = () => {
             <div className="relative">
               <img src={imgUrl} alt={stTdeitle} className="object-cover w-full h-56" />
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black via-transparent to-transparent"></div>
-              <div className="absolute top-2 left-2 bg-green-500 text-white text-sm px-3 py-1 rounded-full">
+              <div className="absolute top-2 left-2 bg-purple-200 text-blue-800 text-sm px-3 py-1 rounded-full">
                 20% off
               </div>
             </div>
@@ -78,7 +83,7 @@ const Offer = () => {
                 <span className="text-sm text-gray-600">{location}</span>
               </div>
               <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-bold text-green-600">${price} / night</span>
+                <span className="text-lg font-bld text-gray-200">${price} / night</span>
                 <div className="flex items-center">
                   <FaStar className="text-yellow-500 text-lg mr-1" />
                   <FaStar className="text-yellow-500 text-lg mr-1" />
@@ -90,14 +95,14 @@ const Offer = () => {
               <div className="grid grid-cols-3 gap-4 mb-4">
                 {amenitiesList.map((amenity, index) => (
                   <div key={index} className="flex items-center space-x-2">
-                    <div className="p-2 rounded-xl text-white text-sm lg:text-xl md:text-lg bg-green-800">
+                    <div className="p-2 rounded-xl text-white text-sm lg:text-xl md:text-lg bg-green-400">
                       {amenity.icon}
                     </div>
                     <span className="text-sm">{amenity.label}</span>
                   </div>
                 ))}
               </div>
-              <button className="bg-[#03AC13] uppercase text-white w-full py-2 px-4 rounded-md hover:bg-green-600 transition duration-300">
+              <button className="bg-indigo-600 uppercase text-white w-full py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300">
                 <Link to={`/hotel/${id}`}>Book Now</Link>
               </button>
             </div>

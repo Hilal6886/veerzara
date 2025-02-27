@@ -11,8 +11,6 @@ import { ToastContainer } from "react-toastify";
 const Hero = lazy(() => import('../pages/Hero'));
 const CardSection = lazy(() => import('../pages/CardSection'));
 const Courses = lazy(() => import('../pages/Courses'));
-const Admission = lazy(() => import('../pages/Admission'));
-const Fee = lazy(() => import('../pages/Fee'));
 const Contact = lazy(() => import('../pages/Contact'));
 const Category = lazy(() => import('../pages/Category'));
 const FaqSection = lazy(() => import('../pages/Faq'));
@@ -57,8 +55,6 @@ const ArfaSchool = () => {
         <Route path="/" element={<Hero />} />
         <Route path="cour" element={<CardSection />} />
         <Route path="courses" element={<Courses />} />
-        <Route path="/admission" element={<Admission />} />
-        <Route path="fee" element={<Fee />} />
         <Route path="contact" element={<Contact />} />
         <Route path="contat" element={<Category />} />
         <Route path="conta" element={<FaqSection />} />

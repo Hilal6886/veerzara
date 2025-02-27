@@ -24,14 +24,15 @@ const Courses = () => {
 
   return (
     <section>
-     <div className="text-center  mb-1">
-        <h1 className="inline-block bg-[#FFE6C9] text-[#4B164C] uppercase tracking-wide px-3 py-1 rounded-xl">
-          Tour Pakages
-        </h1>
-        <p className="text-xl md:text-2l  font-semold text-gray-200 p-6 mt-2">
-        Immerse yourself in the authentic magic of Kashmir
-        </p>
-      </div>
+    
+      <div className="text-center mt-[4rem] mb-[3rem]">
+          <h1 className="inline-block bg-indigo-100 text-indigo-900 uppercase tracking-wide px-4 py-2 rounded-xl">
+            Tour Pakages
+          </h1>
+          <p className="text-xl md:text-2xl font-medium text-gray-200 mt-4">
+          Immerse yourself in the authentic magic of Kashmir
+          </p>
+        </div>
       <div
         data-aos="fade-up"
         className="grid p-4 lg:p-12 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
