@@ -35,7 +35,7 @@ const ExploreCarousel = () => {
   const transformations = "w_800,h_500,c_fill,q_auto,f_auto";
 
   return (
-    <div className="py-6 bg-[#FFF2AF] -to-br from-purple-400 to-indigo-500">
+    <div className="py-6 b-[#FFF2AF] -to-br from-purple-400 to-indigo-500">
       {/* Section Title & Subtitle */}
 
       {/* Slider */}

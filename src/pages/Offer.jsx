@@ -62,7 +62,7 @@ const Offer = () => {
           We are committed to providing you with the best experiences
           </p>
         </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
         {offers.map(({ id, imgUrl, stTdeitle, location, price, title }) => (
           <div
             key={id}
@@ -77,13 +77,11 @@ const Offer = () => {
               </div>
             </div>
             <div className="px-4 py-6">
-              <h6 className="text-lg font-semibold text-[#3D2117] mb-2">{title}</h6>
+              <h6 className="text-lg font-semibold  mb-2">{title}</h6>
               <div className="flex items-center mb-2">
-                <MdLocationOn className="text-[#587498] text-xl mr-2" />
-                <span className="text-sm text-gray-600">{location}</span>
               </div>
               <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-bld text-gray-200">${price} / night</span>
+                <span className="text-lg font-bld text-gray-200">{location}</span>
                 <div className="flex items-center">
                   <FaStar className="text-yellow-500 text-lg mr-1" />
                   <FaStar className="text-yellow-500 text-lg mr-1" />

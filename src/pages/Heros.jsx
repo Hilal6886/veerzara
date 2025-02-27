@@ -27,7 +27,7 @@ export default function Hero() {
   const handleGetQuote = async (e) => {
     e.preventDefault();
     const formData = { name, email, phone };
-    const getformEndpoint = "https://formspree.io/f/xwppglda";
+    const getformEndpoint = "https://formspree.io/f/xrbengnl";
     try {
       const response = await fetch(getformEndpoint, {
         method: "POST",

@@ -41,7 +41,7 @@ const BlogSection = ({
           {excerpt(description, 120)}
         </p>
         <Link to={`/detail/${id}`}>
-          <button className="mt-4 bg-[#03AC13] w-full uppercase text-white py-2 px-4 rounded-md hover:bg-green-600">
+          <button className="mt-4 bg-indigo-600 w-full uppercase text-white py-2 px-4 rounded-md hover:bg-indigo-700">
             Read More
           </button>
         </Link>
